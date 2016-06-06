@@ -13,7 +13,7 @@ all: main
 build: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o main
 
-main: build_test
+main: build
 	./main
 
 debug: CFLAGS += -DDEBUG
