@@ -1,9 +1,27 @@
 #include <stdint.h>
-#inlcude 
 
-#define ROT (???, x)
+// https://github.com/gvanas/KeccakCodePackage/blob/master/Standalone/CompactFIPS202/Keccak-readable-and-compact.c
+#define ROT(a, offset) ((((UINT64)a) << offset) ^ (((UINT64)a) >> (64-offset))
+#define i(x, y) ((x)+5*(y))
 
-state keccak-f(state A)
+// isso ou fazer a LSFR?
+// rc[t] = (x^t mod x^8 + x^6 + x^5 +x^4 + 1) mod x in GF(2)[x].
+uint64_t keccak_rc[24] = {
+    0x0000000000000001, 0x0000000000008082,
+    0x800000000000808A, 0x8000000080008000,
+    0x000000000000808B, 0x0000000080000001,
+    0x8000000080008081, 0x8000000000008009,
+    0x000000000000008A, 0x0000000000000088,
+    0x0000000080008009, 0x000000008000000A,
+    0x000000008000808B, 0x800000000000008B,
+    0x8000000000008089, 0x8000000000008003,
+    0x8000000000008002, 0x8000000000000080,
+    0x000000000000800A, 0x800000008000000A,
+    0x8000000080008081, 0x8000000000008080,
+    0x0000000080000001, 0x8000000080008008,
+};
+
+state keccak_f(state A)
 {
     int i;
 
@@ -13,16 +31,16 @@ state keccak-f(state A)
 }
 
 
-void round(state A, int r)
+void round_b(state A, int r)
 {
     state B;
 
     for (r = 0; r < KECCAK_ROUNDS; r++)
     {
         theta(A);
-        rho-pi(A, B);
+        rho_pi(A, B);
         chi(A, B);
-        iota(A, r);
+        iota(A, keccak_rc[r]);
     }
 }
 
@@ -40,7 +58,6 @@ void theta(state A)
     for (x = 0; x < 5; x++)
         D[x] = C[x - 1] ^ ROT(C[x + 1], 1);
 
-    
     for (x = 0; x < 5; x++)
         for (y = 0; y < 5; y++)
             A[x, y] ^= D[x];
@@ -48,7 +65,7 @@ void theta(state A)
     return A;
 }
 
-void rho-pi(state A, state B)
+void rho_pi(state A, state B)
 {
     int x, y;
 
@@ -70,4 +87,3 @@ void iota(state A, int RC)
 {
     A[0, 0] = A[0, 0] ^ RC;
 }
-
