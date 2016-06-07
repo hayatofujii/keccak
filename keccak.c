@@ -2,7 +2,7 @@
 #include <stdint.h>
 
 // https://github.com/gvanas/KeccakCodePackage/blob/master/Standalone/CompactFIPS202/Keccak-readable-and-compact.c
-#define ROT64(a, offset) ((((uint64_t) a) << offset) ^ (((uint64_t) a) >> (64 - offset)))
+#define ROT64(a, offset) ((((uint64_t)a) << offset) ^ (((uint64_t)a) >> (64 - offset)))
 #define i(x, y) ((x) + 5 * (y))
 
 // EXPERIMENTAL: isso ou fazer a LSFR?
@@ -35,13 +35,10 @@ void round_b(state A, int r)
 {
     state B;
 
-    for (r = 0; r < KECCAK_ROUNDS; r++)
-    {
-        theta(A);
-        rho_pi(A, B);
-        chi(A, B);
-        iota(A, keccak_rc[r]);
-    }
+    theta(A);
+    rho_pi(A, B);
+    chi(A, B);
+    iota(A, keccak_rc[r]);
 }
 
 void theta(state A)
