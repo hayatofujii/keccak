@@ -5,13 +5,17 @@
 
 #define KECCAK_ROUNDS 24
 
-typedef uint64_t state[5][5];
+typedef uint64_t state[25];
 
-void keccak_f_b(state A);
-void round_b(state A, int r);
+void keccak(uint32_t rate, uint32_t cap, uint8_t suffix, uint8_t* in, uint64_t in_size, uint8_t* out, uint64_t out_size);
+
+void keccak_f1600(state A);
+void round_b(state A, uint64_t rc);
 void theta(state A);
 void rho_pi(state A, state B);
 void chi(state A, state B);
-void iota(state A, int rc);
+void iota(state A, uint64_t rc);
+
+void print_state(state s);
 
 #endif /* KECCAK_H */

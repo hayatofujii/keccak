@@ -14,7 +14,7 @@ build: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o main
 
 main: build
-	./main
+	./main > log.log
 
 debug: CFLAGS += -DDEBUG
 debug: main
