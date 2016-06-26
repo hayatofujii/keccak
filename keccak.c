@@ -165,7 +165,7 @@ void chi(state A, state B)
 
 void iota(state A, uint64_t RC)
 {
-    A[0] = A[0] ^ RC;
+    A[0] ^= RC;
 }
 
 void print_state(state s)
